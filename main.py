@@ -1070,7 +1070,7 @@ async def earn_handler(message: types.Message, state: FSMContext):
         cur = await db.execute('SELECT language, earned_channels FROM users WHERE user_id=?', (user_id,))
         result = await cur.fetchone()
         language = result[0] if result and result[0] in ['en', 'ru'] else 'en'
-        user_channels = result[1].split(",") if result[1] else []
+        user_channels = result[1].split(",") if result and result[1] else []
 
     found = False
     for ad in ads_data.copy():
