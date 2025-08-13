@@ -26,8 +26,8 @@ DB_PATH = 'tronocoin.db'
 REFERRAL_BONUS = 5000
 
 
-DB_PASSWORD = "kuchukcha@"
-CHANNEL_ID = "@PreTRC"
+DB_PASSWORD = os.getenv('DB_PASSWORD')
+CHANNEL_ID = os.getenv('CHANNEL_ID')
 
 
 # Til sozlamalari
@@ -166,4 +166,5 @@ LANGUAGES = {
         'invalid_description': "Пожалуйста, напишите описание.",
         'language_select': "🌍 Выберите язык:"
     }
+
 }
