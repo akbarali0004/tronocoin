@@ -8,6 +8,11 @@ from pytoniq import LiteBalancer, WalletV4R2, begin_cell
 
 from config import *
 
+#log maska
+def mask_address(address):
+    if len(address) <= 8:
+        return "****"
+    return f"{address[:4]}...{address[-4:]}"
 
 # Payment Monitoring Functions
 def load_state():
@@ -71,7 +76,7 @@ async def check_payment(memo):
 
 async def process_trc_withdrawal(sender, trc_amount, memo):
     try:
-        logger.info(f"Initiating TRC withdrawal: {trc_amount} TRC to {sender} (memo: {memo})")
+        logger.info(f"Initiating TRC withdrawal: {trc_amount} TRC to {mask_address(sender)} (memo: {mask_address(memo)})")
         load_dotenv()
         mnemonic_string = os.getenv('MNEMONIC')
         if not mnemonic_string:
@@ -107,8 +112,9 @@ async def process_trc_withdrawal(sender, trc_amount, memo):
                         .end_cell())
         await wallet.transfer(destination=USER_JETTON_WALLET, amount=int(0.05*1e9), body=transfer_cell)
         await provider.close_all()
-        logger.info(f"TRC has been transferred to wallet: {sender}")
+        logger.info(f"TRC has been transferred to wallet: {mask_address(sender)}")
         return True
     except Exception as e:
         logger.error(f"Error in TRC withdrawal: {e}")
         return False
+
